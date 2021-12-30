@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang='ja'>
+  <head>
+    <meta charset="utf-8">
+    <title>Sample</title>
+    <style>
+      *{
+        margin:0px;
+        user-select:none;
+      }
+      .btn{
+        margin:10px 20px;
+        padding:10px 20px;
+        font-size:20px;
+        border:1px solid black;
+        border-radius:20px;
+        cursor:pointer;
+        width:300px;
+        text-align:center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="textAdd"></div>
+    <div id="showText" class="btn">テキスト表示</div>
+    <div id="OK-or-No" class="btn">OK or No</div>
+    <script src='./createWindow.js'></script>
+    <script>
+      function addKey(){
+        if(event.key.length===1){
+          document.getElementById('textAdd').innerHTML+=event.key;
+        }else if(event.key==='Process' && event.code.replace('Key','').length===1){
+          document.getElementById('textAdd').innerHTML+=event.code.replace('Key','');
+        }
+        this.value='';
+      }
+
+      document.getElementById('showText').addEventListener('click',function(){
+        createWindow(
+          [
+            {'type':'text','options':{
+              'label':'ここに入力',
+              'defaultValue':null,
+              'func':addKey
+            }}
+          ],
+          'テキスト表示中',
+          {'width':'400px'}
+        );
+      },false);
+
+      document.getElementById('OK-or-No').addEventListener('click',function(){
+        createWindow(
+          [
+            {'type':'startFlex','options':{}},
+            {'type':'btn','options':{
+              'label':'OK',
+              'func':function(){window.alert('OK');}
+            }},
+            {'type':'btn','options':{
+              'label':'No',
+              'func':function(){this.parentNode.parentNode.outerHTML='';}
+            }},
+            {'type':'endFlex','options':{}}
+          ],
+          'テキスト表示中',
+          {'width':'300px'}
+        );
+      },false);
+    </script>
+  </body>
+</html>
